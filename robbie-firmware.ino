@@ -14,10 +14,10 @@
 #define CHAR_STOP       'S'
 #define CHAR_FORWARD    'F'
 #define CHAR_BACKWARD   'B'
-#define CHAR_FORWARD_LEFT   'l'
-#define CHAR_FORWARD_RIGHT  'r'
-#define CHAR_BACKWARD_LEFT  'L'
-#define CHAR_BACKWARD_RIGHT 'R'
+//#define CHAR_FORWARD_LEFT   'l'
+//#define CHAR_FORWARD_RIGHT  'r'
+#define CHAR_LEFT       'L'
+#define CHAR_RIGHT      'R'
 
 /*
  * State machine
@@ -26,7 +26,9 @@ typedef enum
 {
   STATE_STOP,
   STATE_FORWARD,
-  STATE_BACKWARD
+  STATE_BACKWARD,
+  STATE_ROTATE_LEFT,
+  STATE_ROTATE_RIGHT,
 } state_t;
 state_t state = STATE_STOP;
 
@@ -37,15 +39,23 @@ Motor motorLeft(PIN_L298_IN1, PIN_L298_IN2);
 Motor motorRight(PIN_L298_IN3, PIN_L298_IN4);
 MotorPair motors(&motorLeft,&motorRight);
 
+uint32_t command_timeout = 0;
+
+
 void setup()
 {
   Serial.begin(9600);
   motors.stop();
 }
 
+
 void loop()
 {
   delay(10);
+  if (state != STATE_STOP)
+  {
+    command_timeout++;
+  }
 
   if (Serial.available() > 0)
   {
@@ -62,6 +72,12 @@ void loop()
       case CHAR_BACKWARD:
         state = STATE_BACKWARD;
         break;
+      case CHAR_LEFT:
+        state = STATE_ROTATE_LEFT;
+        break;
+      case CHAR_RIGHT:
+        state = STATE_ROTATE_RIGHT;
+        break;
       case '1':
         motors.setSpeed(128);
         break;
@@ -69,6 +85,13 @@ void loop()
         motors.setSpeed(255);
         break;
     }
+
+    command_timeout = 0;
+  }
+
+  if (command_timeout > 200)
+  {
+    state = STATE_STOP;
   }
 
   switch (state)
@@ -78,6 +101,12 @@ void loop()
       break;
     case STATE_BACKWARD:
       motors.backward();
+      break;
+    case STATE_ROTATE_LEFT:
+      motors.rotateLeft();
+      break;
+    case STATE_ROTATE_RIGHT:
+      motors.rotateRight();
       break;
     default:
       motors.stop();
