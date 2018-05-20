@@ -11,7 +11,7 @@
 
 #include "motor.hpp"
 
-Motor motorLeft(PIN_L298_IN2, PIN_L298_IN1);
+Motor motorLeft(PIN_L298_IN1, PIN_L298_IN2);
 Motor motorRight(PIN_L298_IN3, PIN_L298_IN4);
 
 

@@ -29,13 +29,13 @@ public:
         digitalWrite(pin2, LOW);
     }
 
-    void forward()
+    void reverse()
     {
         digitalWrite(pin1, HIGH);
         digitalWrite(pin2, LOW);
     }
 
-    void reverse()
+    void forward()
     {
         digitalWrite(pin1, LOW);
         digitalWrite(pin2, HIGH);
