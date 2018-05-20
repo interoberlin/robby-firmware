@@ -3,3 +3,9 @@
 .*.swp
 *.tmp
 
+# Eclipse
+.project
+.cproject
+.metadata
+.settings
+
