@@ -35,13 +35,12 @@ state_t state = STATE_STOP;
 
 Motor motorLeft(PIN_L298_IN1, PIN_L298_IN2);
 Motor motorRight(PIN_L298_IN3, PIN_L298_IN4);
-
+MotorPair motors(&motorLeft,&motorRight);
 
 void setup()
 {
   Serial.begin(9600);
-  motorLeft.stop();
-  motorRight.stop();
+  motors.stop();
 }
 
 void loop()
@@ -63,22 +62,25 @@ void loop()
       case CHAR_BACKWARD:
         state = STATE_BACKWARD;
         break;
+      case '1':
+        motors.setSpeed(128);
+        break;
+      case '2':
+        motors.setSpeed(255);
+        break;
     }
   }
 
   switch (state)
   {
     case STATE_FORWARD:
-      motorLeft.forward();
-      motorRight.forward();
+      motors.forward();
       break;
     case STATE_BACKWARD:
-      motorLeft.backward();
-      motorRight.backward();
+      motors.backward();
       break;
     default:
-      motorLeft.stop();
-      motorRight.stop();
+      motors.stop();
       break;
   }
 }
