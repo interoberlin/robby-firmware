@@ -10,6 +10,7 @@ class Motor
 private:
     uint8_t pin1;
     uint8_t pin2;
+    uint8_t speed;
 
 public:
     Motor(uint8_t pin1, uint8_t pin2)
@@ -17,6 +18,7 @@ public:
         // Remember pin numbers
         this->pin1 = pin1;
         this->pin2 = pin2;
+        this->speed = 255;
 
         // Configure GPIO as outputs
         pinMode(pin1, OUTPUT);
@@ -25,20 +27,25 @@ public:
     
     void stop()
     {
-        digitalWrite(pin1, LOW);
-        digitalWrite(pin2, LOW);
-    }
-
-    void reverse()
-    {
-        digitalWrite(pin1, HIGH);
-        digitalWrite(pin2, LOW);
+        analogWrite(pin1, 0);
+        analogWrite(pin2, 0);
     }
 
     void forward()
     {
-        digitalWrite(pin1, LOW);
-        digitalWrite(pin2, HIGH);
+        analogWrite(pin1, 0);
+        analogWrite(pin2, speed);
+    }
+
+    void backward()
+    {
+        analogWrite(pin1, speed);
+        analogWrite(pin2, 0);
+    }
+
+    void setSpeed(uint8_t value)
+    {
+        speed = value;
     }
 };
 
