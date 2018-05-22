@@ -97,7 +97,8 @@ public:
         // We don't know the motors' speed, therefore stop them.
         motorLeft->stop();
         motorRight->stop();
-        speed = 0;
+        speed = 96;
+        setSpeed(speed);
     }
 
     void setSpeed(uint8_t value)
@@ -115,24 +116,48 @@ public:
 
     void forward()
     {
+        motorLeft->setSpeed(speed);
+        motorRight->setSpeed(speed);
         motorLeft->forward();
         motorRight->forward();
     }
 
     void backward()
     {
+        motorLeft->setSpeed(speed);
+        motorRight->setSpeed(speed);
         motorLeft->backward();
         motorRight->backward();
     }
 
+    void moveLeft()
+    {
+        motorLeft->setSpeed(speed);
+        motorRight->setSpeed(speed+20);
+        motorLeft->forward();
+        motorRight->forward();
+    }
+
+    void moveRight()
+    {
+        motorLeft->setSpeed(speed+20);
+        motorRight->setSpeed(speed);
+        motorLeft->forward();
+        motorRight->forward();
+    }
+
     void rotateLeft()
     {
+        motorLeft->setSpeed(speed);
+        motorRight->setSpeed(speed);
         motorLeft->backward();
         motorRight->forward();
     }
 
     void rotateRight()
     {
+        motorLeft->setSpeed(speed);
+        motorRight->setSpeed(speed);
         motorLeft->forward();
         motorRight->backward();
     }

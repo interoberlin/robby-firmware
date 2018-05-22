@@ -18,6 +18,8 @@
 //#define CHAR_FORWARD_RIGHT  'r'
 #define CHAR_LEFT       'L'
 #define CHAR_RIGHT      'R'
+#define CHAR_ROTATE_LEFT  '<'
+#define CHAR_ROTATE_RIGHT '>'
 
 /*
  * State machine
@@ -27,6 +29,8 @@ typedef enum
   STATE_STOP,
   STATE_FORWARD,
   STATE_BACKWARD,
+  STATE_LEFT,
+  STATE_RIGHT,
   STATE_ROTATE_LEFT,
   STATE_ROTATE_RIGHT,
 } state_t;
@@ -73,15 +77,30 @@ void loop()
         state = STATE_BACKWARD;
         break;
       case CHAR_LEFT:
-        state = STATE_ROTATE_LEFT;
+        state = STATE_LEFT;
         break;
       case CHAR_RIGHT:
+        state = STATE_RIGHT;
+        break;
+      case CHAR_ROTATE_LEFT:
+        state = STATE_ROTATE_LEFT;
+        break;
+      case CHAR_ROTATE_RIGHT:
         state = STATE_ROTATE_RIGHT;
         break;
       case '1':
         motors.setSpeed(128);
         break;
       case '2':
+        motors.setSpeed(160);
+        break;
+      case '3':
+        motors.setSpeed(192);
+        break;
+      case '4':
+        motors.setSpeed(224);
+        break;
+      case '5':
         motors.setSpeed(255);
         break;
     }
@@ -101,6 +120,12 @@ void loop()
       break;
     case STATE_BACKWARD:
       motors.backward();
+      break;
+    case STATE_LEFT:
+      motors.moveLeft();
+      break;
+    case STATE_RIGHT:
+      motors.moveRight();
       break;
     case STATE_ROTATE_LEFT:
       motors.rotateLeft();
