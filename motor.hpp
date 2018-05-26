@@ -97,7 +97,7 @@ public:
         // We don't know the motors' speed, therefore stop them.
         motorLeft->stop();
         motorRight->stop();
-        speed = 96;
+        speed = 140;
         setSpeed(speed);
     }
 
@@ -116,8 +116,10 @@ public:
 
     void forward()
     {
-        motorLeft->setSpeed(speed);
-        motorRight->setSpeed(speed);
+        //motorLeft->setSpeed(speed);
+        //motorRight->setSpeed(speed+10);
+        motorLeft->setSpeed(255);
+        motorRight->setSpeed(255);
         motorLeft->forward();
         motorRight->forward();
     }
@@ -125,7 +127,7 @@ public:
     void backward()
     {
         motorLeft->setSpeed(speed);
-        motorRight->setSpeed(speed);
+        motorRight->setSpeed(speed+85);
         motorLeft->backward();
         motorRight->backward();
     }
@@ -133,14 +135,14 @@ public:
     void moveLeft()
     {
         motorLeft->setSpeed(speed);
-        motorRight->setSpeed(speed+20);
+        motorRight->setSpeed(speed+60);
         motorLeft->forward();
         motorRight->forward();
     }
 
     void moveRight()
     {
-        motorLeft->setSpeed(speed+20);
+        motorLeft->setSpeed(speed+40);
         motorRight->setSpeed(speed);
         motorLeft->forward();
         motorRight->forward();
@@ -148,7 +150,7 @@ public:
 
     void rotateLeft()
     {
-        motorLeft->setSpeed(speed);
+        motorLeft->setSpeed(speed+40);
         motorRight->setSpeed(speed);
         motorLeft->backward();
         motorRight->forward();
@@ -157,7 +159,7 @@ public:
     void rotateRight()
     {
         motorLeft->setSpeed(speed);
-        motorRight->setSpeed(speed);
+        motorRight->setSpeed(speed+40);
         motorLeft->forward();
         motorRight->backward();
     }
